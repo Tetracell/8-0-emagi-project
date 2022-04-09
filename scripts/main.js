@@ -80,6 +80,7 @@ const searchEmoji = ((x, data) => {
     const result = search(term, data)
         .map((emoji) => emoji.symbol)
         .join('');
+
     const resultArea = document.querySelector('#search aside p');
 
     if (result === '') {
@@ -116,16 +117,25 @@ const randoForm = (data) => {
 
 const randoMoji = (element, emojiCategories) => {
     element.preventDefault();
-    let dropDown=document.querySelector("#category");
-    let result = document.querySelector("#category .result p");
-    let selection = dropDown.value;
-    console.log(emojiCategories);
+    //console.log(emojiCategories);
+    let dropDown = document.querySelector('#category');
+    let randomBox = document.querySelector("#random .result");
+    let randomEmoji = document.querySelector('#random .result p');
 
-    console.log(emojiCategories[selection]);
-    if (selection == "-- Choose a category --"){
-        //this will be an error, as it's the default value
+    let selection = dropDown.value;
+    //console.log(selection);
+    if (selection == "-- Choose a Category --") {
+        randomBox.classList.add('error');
+        randomBox.classList.remove('success');
+        randomEmoji.textContent = "Please select a category";
+        return;
     }
 
-    let randomizer = Math.floor(Math.random(emojiCategories[selection].length));
-    console.log(randomizer);
+    let chosenCategory = emojiCategories[selection];
+
+    let randomizer = Math.floor(Math.random() * (chosenCategory.length));
+    //console.log(randomizer);
+    randomBox.classList.remove("error");
+    randomBox.classList.add("success");
+    randomEmoji.textContent = chosenCategory[randomizer];
 };
